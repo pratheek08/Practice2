@@ -1,17 +1,17 @@
 pipeline {
     agent any
     environment {
-        DOCKER_CREDENTIALS_ID = 'docker-hub-credentials'
+        DOCKER_CREDENTIALS_ID = 'docker_creds'
     }
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/jkbarathkumar/mock-test'
+                git branch: 'main', url: 'https://github.com/pratheek08/Practice2'
             }
         }
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t barathkumar29/helloworld-python .'
+                sh 'docker build -t igris08/helloworld-practice .'
             }
         }
         stage('Push to DockerHub') {
@@ -19,7 +19,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh '''
                     echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                    docker push barathkumar29/helloworld-python
+                    docker push igris08/helloworld-practice
                     '''
                 }
             }
